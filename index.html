@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Honeymoon · Japón + Indonesia</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500;600&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #F7F5F0;
+    --card: #FFFFFF;
+    --navy: #1C2B3A;
+    --navy-light: #2E4057;
+    --sage: #6B8F71;
+    --coral: #C9674B;
+    --sand: #E8E0D4;
+    --text: #2C2C2C;
+    --muted: #7A7A7A;
+    --border: #E8E4DE;
+    --pill-japan: #EDF4EE;
+    --pill-japan-text: #3D6642;
+    --pill-indonesia: #FEF3EE;
+    --pill-indonesia-text: #A0442C;
+    --pill-usa: #EEF1F8;
+    --pill-usa-text: #2E4580;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    font-family: 'Inter', sans-serif;
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ─── HEADER ─── */
+  .header {
+    background: var(--navy);
+    color: white;
+    text-align: center;
+    padding: 56px 24px 48px;
+  }
+
+  .header-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 16px;
+  }
+
+  .header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(42px, 8vw, 72px);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    margin-bottom: 14px;
+  }
+
+  .header-sub {
+    font-size: 15px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.6);
+    letter-spacing: 0.04em;
+  }
+
+  .header-destinations {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 28px;
+    flex-wrap: wrap;
+  }
+
+  .dest-tag {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    border: 1px solid rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.75);
+  }
+
+  /* ─── DAY TABS ─── */
+  .tabs-wrapper {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--navy);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .tabs-scroll {
+    display: flex;
+    overflow-x: auto;
+    padding: 0 16px;
+    gap: 4px;
+    scrollbar-width: none;
+  }
+
+  .tabs-scroll::-webkit-scrollbar { display: none; }
+
+  .tab {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px 14px;
+    cursor: pointer;
+    border: none;
+    background: none;
+    color: rgba(255,255,255,0.45);
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    transition: color 0.2s;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    position: relative;
+    top: 1px;
+  }
+
+  .tab .tab-num {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 2px;
+    color: inherit;
+  }
+
+  .tab.active {
+    color: white;
+    border-bottom-color: var(--coral);
+  }
+
+  .tab:hover:not(.active) { color: rgba(255,255,255,0.7); }
+
+  /* ─── MAIN CONTENT ─── */
+  .main {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 32px 16px 80px;
+  }
+
+  /* ─── DAY PANEL ─── */
+  .day-panel { display: none; }
+  .day-panel.active { display: block; }
+
+  .day-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .day-badge {
+    flex-shrink: 0;
+    background: var(--navy);
+    color: white;
+    border-radius: 12px;
+    padding: 10px 14px;
+    text-align: center;
+    min-width: 60px;
+  }
+
+  .day-badge .day-num {
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1;
+  }
+
+  .day-badge .day-label {
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    opacity: 0.6;
+    margin-top: 3px;
+  }
+
+  .day-title-block {}
+
+  .day-date-small {
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 400;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .day-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 1.1;
+    color: var(--navy);
+  }
+
+  .location-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    margin-top: 10px;
+  }
+
+  .location-pill.japan { background: var(--pill-japan); color: var(--pill-japan-text); }
+  .location-pill.indonesia { background: var(--pill-indonesia); color: var(--pill-indonesia-text); }
+  .location-pill.usa { background: var(--pill-usa); color: var(--pill-usa-text); }
+
+  /* ─── CARD ─── */
+  .card {
+    background: var(--card);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 16px;
+    border: 1px solid var(--border);
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 20px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .card-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    flex-shrink: 0;
+  }
+
+  .card-icon.flight { background: #EEF4FF; }
+  .card-icon.hotel { background: #FFF4EE; }
+  .card-icon.activity { background: #EDF4EE; }
+  .card-icon.transport { background: #F5F0FF; }
+
+  .card-title {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+
+  /* ─── TIMELINE ─── */
+  .timeline { padding: 8px 0; }
+
+  .tl-item {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    align-items: start;
+    padding: 11px 20px;
+    border-bottom: 1px solid var(--border);
+    gap: 12px;
+  }
+
+  .tl-item:last-child { border-bottom: none; }
+
+  .tl-time {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--navy);
+    padding-top: 1px;
+    letter-spacing: 0.01em;
+  }
+
+  .tl-time.muted {
+    font-weight: 400;
+    color: var(--muted);
+    font-style: italic;
+    font-size: 12px;
+  }
+
+  .tl-desc {
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.45;
+  }
+
+  .tl-sub {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  /* ─── HOTEL CARD ─── */
+  .hotel-block {
+    padding: 16px 20px;
+  }
+
+  .hotel-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 4px;
+  }
+
+  .hotel-meta {
+    font-size: 13px;
+    color: var(--muted);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 8px;
+  }
+
+  .hotel-meta span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+
+  .badge.green { background: #E8F5E9; color: #2E7D32; }
+  .badge.orange { background: #FFF3E0; color: #E65100; }
+
+  /* ─── DIVIDER ─── */
+  .section-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 8px 0 20px;
+  }
+
+  /* ─── FLIGHT DETAIL ─── */
+  .flight-route {
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .flight-city {
+    text-align: center;
+  }
+
+  .flight-city .code {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--navy);
+    letter-spacing: -0.02em;
+  }
+
+  .flight-city .city-name {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  .flight-arrow {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .flight-line {
+    width: 100%;
+    height: 1px;
+    background: var(--border);
+    position: relative;
+  }
+
+  .flight-line::after {
+    content: '✈';
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 14px;
+    color: var(--navy-light);
+  }
+
+  .flight-times {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .flight-time-label {
+    font-size: 11px;
+    color: var(--muted);
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-eyebrow">Luna de Miel · 2026</div>
+  <h1>Honeymoon</h1>
+  <div class="header-sub">13 de julio — 2 de agosto · 21 días</div>
+  <div class="header-destinations">
+    <span class="dest-tag">🇺🇸 Los Angeles</span>
+    <span class="dest-tag">🇯🇵 Tokio · Kioto · Osaka</span>
+    <span class="dest-tag">🇮🇩 Bali · Islas Komodo</span>
+  </div>
+</header>
+
+<!-- TABS -->
+<div class="tabs-wrapper">
+  <div class="tabs-scroll" id="tabsScroll">
+    <button class="tab active" onclick="showDay(1, this)"><span class="tab-num">1</span>13 Jul</button>
+    <button class="tab" onclick="showDay(2, this)"><span class="tab-num">2</span>14 Jul</button>
+    <button class="tab" onclick="showDay(3, this)"><span class="tab-num">3</span>15 Jul</button>
+    <button class="tab" onclick="showDay(4, this)"><span class="tab-num">4</span>16 Jul</button>
+    <button class="tab" onclick="showDay(5, this)"><span class="tab-num">5</span>17 Jul</button>
+    <button class="tab" onclick="showDay(6, this)"><span class="tab-num">6</span>18 Jul</button>
+    <button class="tab" onclick="showDay(7, this)"><span class="tab-num">7</span>19 Jul</button>
+    <button class="tab" onclick="showDay(8, this)"><span class="tab-num">8</span>20 Jul</button>
+    <button class="tab" onclick="showDay(9, this)"><span class="tab-num">9</span>21 Jul</button>
+    <button class="tab" onclick="showDay(10, this)"><span class="tab-num">10</span>22 Jul</button>
+    <button class="tab" onclick="showDay(11, this)"><span class="tab-num">11</span>23 Jul</button>
+    <button class="tab" onclick="showDay(12, this)"><span class="tab-num">12</span>24 Jul</button>
+    <button class="tab" onclick="showDay(13, this)"><span class="tab-num">13</span>25 Jul</button>
+    <button class="tab" onclick="showDay(14, this)"><span class="tab-num">14</span>26 Jul</button>
+    <button class="tab" onclick="showDay(15, this)"><span class="tab-num">15</span>27 Jul</button>
+    <button class="tab" onclick="showDay(16, this)"><span class="tab-num">16</span>28 Jul</button>
+    <button class="tab" onclick="showDay(17, this)"><span class="tab-num">17</span>29 Jul</button>
+    <button class="tab" onclick="showDay(18, this)"><span class="tab-num">18</span>30 Jul</button>
+    <button class="tab" onclick="showDay(19, this)"><span class="tab-num">19</span>31 Jul</button>
+    <button class="tab" onclick="showDay(20, this)"><span class="tab-num">20</span>1 Ago</button>
+    <button class="tab" onclick="showDay(21, this)"><span class="tab-num">21</span>2 Ago</button>
+  </div>
+</div>
+
+<main class="main">
+
+  <!-- DÍA 1 -->
+  <div class="day-panel active" id="day-1">
+    <div class="day-header">
+      <div class="day-badge"><div class="day-num">1</div><div class="day-label">Día</div></div>
+      <div class="day-title-block">
+        <div class="day-date-small">Lunes · 13 de julio</div>
+        <div class="day-title">Salida a Los Angeles</div>
+        <span class="location-pill usa">🇺🇸 Los Angeles, Estados Unidos</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon flight">✈️</div>
+        <span class="card-title">Vuelo</span>
+      </div>
+      <div class="flight-route">
+        <div class="flight-city"><div class="code">MTY</div><div class="city-name">Monterrey</div></div>
+        <div class="flight-arrow">
+          <div class="flight-line"></div>
+          <div class="flight-times">
+            <div class="flight-time-label">20:15</div>
+            <div class="flight-time-label">22:30</div>
+          </div>
+        </div>
+        <div class="flight-city"><div class="code">LAX</div><div class="city-name">Los Angeles</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon activity">📋</div>
+        <span class="card-title">Programa del día</span>
+      </div>
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-time">22:30</div><div class="tl-desc">Llegada a Los Angeles</div></div>
+        <div class="tl-item"><div class="tl-time">24:00</div><div class="tl-desc">Check-in hotel</div></div>
+        <div class="tl-item"><div class="tl-time muted">Noche</div><div class="tl-desc">Cenar en hotel</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon hotel">🏨</div>
+        <span class="card-title">Hospedaje</span>
+      </div>
+      <div class="hotel-block">
+        <div class="hotel-name">Hilton Garden Inn LAX Los Angeles Airport</div>
+        <div class="hotel-meta">
+          <span>🌙 1 noche</span>
+          <span>🛏 Habitación, 1 cama King size</span>
+          <span><span class="badge orange">Sin desayuno</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DÍA 2 -->
+  <div class="day-panel" id="day-2">
+    <div class="day-header">
+      <div class="day-badge"><div class="day-num">2</div><div class="day-label">Día</div></div>
+      <div class="day-title-block">
+        <div class="day-date-small">Martes · 14 de julio</div>
+        <div class="day-title">Vuelo a Tokio</div>
+        <span class="location-pill usa">✈️ En tránsito</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon flight">✈️</div>
+        <span class="card-title">Vuelo</span>
+      </div>
+      <div class="flight-route">
+        <div class="flight-city"><div class="code">LAX</div><div class="city-name">Los Angeles</div></div>
+        <div class="flight-arrow">
+          <div class="flight-line"></div>
+          <div class="flight-times">
+            <div class="flight-time-label">10:40</div>
+            <div class="flight-time-label">14:00 (+1)</div>
+          </div>
+        </div>
+        <div class="flight-city"><div class="code">TYO</div><div class="city-name">Tokio</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon activity">📋</div>
+        <span class="card-title">Programa del día</span>
+      </div>
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-time">07:30</div><div class="tl-desc">Check-in Aeropuerto LAX</div></div>
+        <div class="tl-item"><div class="tl-time">10:40</div><div class="tl-desc">Despegue rumbo a Tokio</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DÍA 3 -->
+  <div class="day-panel" id="day-3">
+    <div class="day-header">
+      <div class="day-badge"><div class="day-num">3</div><div class="day-label">Día</div></div>
+      <div class="day-title-block">
+        <div class="day-date-small">Miércoles · 15 de julio</div>
+        <div class="day-title">Llegada a Tokio</div>
+        <span class="location-pill japan">🇯🇵 Tokio, Japón</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon activity">📋</div>
+        <span class="card-title">Programa del día</span>
+      </div>
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-time">14:00</div><div class="tl-desc">Llegada a Tokio</div></div>
+        <div class="tl-item"><div class="tl-time muted">→</div><div class="tl-desc">Transporte al hotel</div></div>
+        <div class="tl-item"><div class="tl-time">16:00</div><div class="tl-desc">Check-in hotel</div></div>
+        <div class="tl-item"><div class="tl-time muted">Tarde</div><div class="tl-desc">Ir al Shibuya Crossing</div></div>
+        <div class="tl-item"><div class="tl-time muted">Tarde</div><div class="tl-desc">Subir al Mags Park Rooftop</div></div>
+        <div class="tl-item"><div class="tl-time muted">Noche</div><div class="tl-desc">Cenar en Shibuya · opción de ir a un bar</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon hotel">🏨</div>
+        <span class="card-title">Hospedaje · 4 noches</span>
+      </div>
+      <div class="hotel-block">
+        <div class="hotel-name">Quintessa Hotel Tokyo Ginza</div>
+        <div class="hotel-meta">
+          <span>🌙 4 noches (15–19 jul)</span>
+          <span>🛏 Habitación doble estándar</span>
+          <span><span class="badge green">Desayuno incluido</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DÍA 4 -->
+  <div class="day-panel" id="day-4">
+    <div class="day-header">
+      <div class="day-badge"><div class="day-num">4</div><div class="day-label">Día</div></div>
+      <div class="day-title-block">
+        <div class="day-date-small">Jueves · 16 de julio</div>
+        <div class="day-title">Shinjuku & Harajuku</div>
+        <span class="location-pill japan">🇯🇵 Tokio, Japón</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon activity">📋</div>
+        <span class="card-title">Programa del día</span>
+      </div>
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-time muted">Mañana</div><div class="tl-desc">Mañana tranquila — Caminar por Shinjuku<div class="tl-sub">Buscar la cabeza de Godzilla 🦖</div></div></div>
+        <div class="tl-item"><div class="tl-time muted">Tarde</div><div class="tl-desc">Visitar el Meiji Shrine</div></div>
+        <div class="tl-item"><div class="tl-time muted">Tarde</div><div class="tl-desc">Takeshita Dori en Harajuku</div></div>
+        <div class="tl-item"><div class="tl-time muted">Noche</div><div class="tl-desc">Bares de Shinjuku</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DÍA 5 -->
+  <div class="day-panel" id="day-5">
+    <div class="day-header">
+      <div class="day-badge"><div class="day-num">5</div><div class="day-label">Día</div></div>
+      <div class="day-title-block">
+        <div class="day-date-small">Viernes · 17 de julio</div>
+        <div class="day-title">Ueno & Asakusa</div>
+        <span class="location-pill japan">🇯🇵 Tokio, Japón</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon activity">📋</div>
+        <span class="card-title">Programa del día</span>
+      </div>
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-time">10:20</div><div class="tl-desc">Shibuya Sky ⭐<div class="tl-sub">Reservación confirmada</div></div></div>
+        <div class="tl-item"><div class="tl-time muted">Tarde</div><div class="tl-desc">Caminar en Ueno Park</div></div>
+        <div class="tl-item"><div class="tl-time muted">Tarde</div><div class="tl-desc">Comer en Ameyoko Street</div></div>
+        <div class="tl-item"><div class="tl-time muted">Tarde</div><div class="tl-desc">Visitar Senso-Ji Temple</div></div>
+        <div class="tl-item"><div class="tl-time muted">Tarde</div><div class="tl-desc">Entre tiempo — Tienda Don Quijote</div></div>
+        <div class="tl-item"><div class="tl-time">20:30</div><div class="tl-desc">Asakusa Sumo Club 🥊<div class="tl-sub">Reservación confirmada</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DÍA 6 -->
+  <div class="day-panel" id="day-6">
+    <div class="day-header">
+      <div class="day-badge"><div class="day-num">6</div><div class="day-label">Día</div></div>
+      <div class="day-title-block">
+        <div class="day-date-small">Sábado · 18 de julio</div>
+        <div class="day-title">Tokyo Tower & Akihabara</div>
+        <span class="location-pill japan">🇯🇵 Tokio, Japón</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon activity">📋</div>
+        <span class="card-title">Programa del día</span>
+      </div>
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-time muted">Mañana</div><div class="tl-desc">Tokyo Tower 🗼</div></div>
+        <div class="tl-item"><div class="tl-time muted">Tarde</div><div class="tl-desc">Tarde en Akihabara</div></div>
+        <div class="tl-item"><div class="tl-time muted">Tarde</div><div class="tl-desc">Shopping · Uniqlo y más</div></div>
+        <div class="tl-item"><div class="tl-time muted">Noche</div><div class="tl-desc">Cenar en Shinjuku o Kabukicho</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DÍA 7 -->
+  <div class="day-panel" id="day-7">
+    <div class="day-header">
+      <div class="day-badge"><div class="day-num">7</div><div class="day-label">Día</div></div>
+      <div class="day-title-block">
+        <div class="day-date-small">Domingo · 19 de julio</div>
+        <div class="day-title">Tokio → Kioto</div>
+        <span class="location-pill japan">🇯🇵 Kioto, Japón</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon transport">🚄</div>
+        <span class="card-title">Tren Shinkansen</span>
+      </div>
+      <div class="flight-route">
+        <div class="flight-city"><div class="code">TYO</div><div class="city-name">Tokio</div></div>
+        <div class="flight-arrow">
+          <div class="flight-line"></div>
+          <div class="flight-times">
+            <div class="flight-time-label">12:00</div>
+            <div class="flight-time-label">14:15</div>
+          </div>
+        </div>
+        <div class="flight-city"><div class="code">KYO</div><div class="city-name">Kioto</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon activity">📋</div>
+        <span class="card-title">Programa del día</span>
+      </div>
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-time muted">Mañana</div><div class="tl-desc">Mañana tranquila en Tokio</div></div>
+        <div class="tl-item"><div class="tl-time">12:00</div><div class="tl-desc">Tren Tokio → Kioto</div></div>
+        <div class="tl-item"><div class="tl-time">14:15</div><div class="tl-desc">Llegada a Kioto · Transporte al hotel</div></div>
+        <div class="tl-item"><div class="tl-time muted">Tarde</div><div class="tl-desc">Kiyomizu-Dera Temple</div></div>
+        <div class="tl-item"><div class="tl-time muted">Tarde</div><div class="tl-desc">Yasaka Shrine</div></div>
+        <div class="tl-item"><div class="tl-time muted">Noche</div><div class="tl-desc">Cena en Kioto</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon hotel">🏨</div>
+        <span class="card-title">Hospedaje · 3 noches</span>
+      </div>
+      <div class="hotel-block">
+        <div class="hotel-name">Onyado Nono Kyotoshichijo Natural Hot Springs</div>
+        <div class="hotel-meta">
+          <span>🌙 3 noches (19–22 jul)</span>
+          <span>🛏 Habitación Queen para no fumadores</span>
+          <span>♨️ Aguas termales</span>
+          <span><span class="badge green">Desayuno incluido</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DÍA 8 -->
+  <div class="day-panel" id="day-8">
+    <div class="day-header">
+      <div class="day-badge"><div class="day-num">8</div><div class="day-label">Día</div></div>
+      <div class="day-title-block">
+        <div class="day-date-small">Lunes · 20 de julio</div>
+        <div class="day-title">Arashiyama & Gion</div>
+        <span class="location-pill japan">🇯🇵 Kioto, Japón</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon activity">📋</div>
+        <span class="card-title">Programa del día</span>
+      </div>
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-time">07:00</div><div class="tl-desc">Arashiyama Bamboo Grove 🎋<div class="tl-sub">Llegar temprano para evitar multitudes</div></div></div>
+        <div class="tl-item"><div class="tl-time muted">→</div><div class="tl-desc">Tenryu-Ji Temple (3 min a pie)</div></div>
+        <div class="tl-item"><div class="tl-time muted">→</div><div class="tl-desc">Iwatayama Monkey Park (8 min a pie) 🐒</div></div>
+        <div class="tl-item"><div class="tl-time muted">Tarde</div><div class="tl-desc">Pasear por el barrio de Gion</div></div>
+        <div class="tl-item"><div class="tl-time muted">Noche</div><div class="tl-desc">Cenar en Gion o Nishiki Market</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DÍA 9 -->
+  <div class="day-panel" id="day-9">
+    <div class="day-header">
+      <div class="day-badge"><div class="day-num">9</div><div class="day-label">Día</div></div>
+      <div class="day-title-block">
+        <div class="day-date-small">Martes · 21 de julio</div>
+        <div class="day-title">Fushimi Inari & Ceremonia del Té</div>
+        <span class="location-pill japan">🇯🇵 Kioto, Japón</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon activity">📋</div>
+        <span class="card-title">Programa del día</span>
+      </div>
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-time">07:00</div><div class="tl-desc">Fushimi Inari-Taisha · Tori Gates ⛩️<div class="tl-sub">Llegar temprano para la mejor experiencia</div></div></div>
+        <div class="tl-item"><div class="tl-time muted">→</div><div class="tl-desc">Tofuku-Ji Temple (17 min a pie)</div></div>
+        <div class="tl-item"><div class="tl-time muted">→</div><div class="tl-desc">Otagi Nenbutsuji Temple</div></div>
+        <div class="tl-item"><div class="tl-time">13:00</div><div class="tl-desc">Ceremonia del Té con Kimono 🍵<div class="tl-sub">Cerca del Santuario Imamiya Jinjya · Duración: 1h30m</div></div></div>
+        <div class="tl-item"><div class="tl-time">14:30</div><div class="tl-desc">Fin del tour de ceremonia</div></div>
+        <div class="tl-item"><div class="tl-time muted">Tarde</div><div class="tl-desc">Pabellón Dorado (Kinkaku-ji) ✨</div></div>
+        <div class="tl-item"><div class="tl-time">18:00</div><div class="tl-desc">TeamLab Kioto</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DÍA 10 -->
+  <div class="day-panel" id="day-10">
+    <div class="day-header">
+      <div class="day-badge"><div class="day-num">10</div><div class="day-label">Día</div></div>
+      <div class="day-title-block">
+        <div class="day-date-small">Miércoles · 22 de julio</div>
+        <div class="day-title">Nara & Osaka</div>
+        <span class="location-pill japan">🇯🇵 Osaka, Japón</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon activity">📋</div>
+        <span class="card-title">Programa del día</span>
+      </div>
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-time muted">Mañana</div><div class="tl-desc">Transporte a Osaka · Check-in hotel</div></div>
+        <div class="tl-item"><div class="tl-time muted">Mañana</div><div class="tl-desc">Medio día en Nara 🦌</div></div>
+        <div class="tl-item"><div class="tl-time muted">→</div><div class="tl-desc">Nara Park — darle de comer a los venados</div></div>
+        <div class="tl-item"><div class="tl-time muted">→</div><div class="tl-desc">Todai-Ji Temple</div></div>
+        <div class="tl-item"><div class="tl-time muted">→</div><div class="tl-desc">Caminar por Isui-en Garden</div></div>
+        <div class="tl-item"><div class="tl-time muted">Tarde</div><div class="tl-desc">Transporte a Osaka</div></div>
+        <div class="tl-item"><div class="tl-time muted">Tarde</div><div class="tl-desc">Osaka Castle y pasear por el parque 🏯</div></div>
+        <div class="tl-item"><div class="tl-time muted">Tarde</div><div class="tl-desc">TeamLab Osaka</div></div>
+        <div class="tl-item"><div class="tl-time muted">Noche</div><div class="tl-desc">Explorar Dotonbori 🍜</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon hotel">🏨</div>
+        <span class="card-title">Hospedaje · 2 noches</span>
+      </div>
+      <div class="hotel-block">
+        <div class="hotel-name">Resol Hotel Trinity Osaka</div>
+        <div class="hotel-meta">
+          <span>🌙 2 noches (22–24 jul)</span>
+          <span>🛏 Habitación doble superior Queen, no fumadores</span>
+          <span><span class="badge green">Desayuno incluido</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DÍA 11 -->
+  <div class="day-panel" id="day-11">
+    <div class="day-header">
+      <div class="day-badge"><div class="day-num">11</div><div class="day-label">Día</div></div>
+      <div class="day-title-block">
+        <div class="day-date-small">Jueves · 23 de julio</div>
+        <div class="day-title">Katsuoji & Minoh Falls</div>
+        <span class="location-pill japan">🇯🇵 Osaka, Japón</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon activity">📋</div>
+        <span class="card-title">Programa del día</span>
+      </div>
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-time muted">Mañana</div><div class="tl-desc">Desayuno en hotel</div></div>
+        <div class="tl-item"><div class="tl-time muted">Mañana</div><div class="tl-desc">Metro y camión a Katsuoji Temple<div class="tl-sub">Daruma Doll Experience 🎎</div></div></div>
+        <div class="tl-item"><div class="tl-time muted">→</div><div class="tl-desc">Camión a las Minoh Falls</div></div>
+        <div class="tl-item"><div class="tl-time muted">→</div><div class="tl-desc">Hike de aprox. 45 min hasta las cascadas 🌿</div></div>
+        <div class="tl-item"><div class="tl-time muted">Tarde</div><div class="tl-desc">De regreso al hotel · Relax</div></div>
+        <div class="tl-item"><div class="tl-time muted">Noche</div><div class="tl-desc">Salir a Dotonbori o Shinsekai</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DÍA 12 -->
+  <div class="day-panel" id="day-12">
+    <div class="day-header">
+      <div class="day-badge"><div class="day-num">12</div><div class="day-label">Día</div></div>
+      <div class="day-title-block">
+        <div class="day-date-small">Viernes · 24 de julio</div>
+        <div class="day-title">Vuelo a Bali</div>
+        <span class="location-pill indonesia">🇮🇩 Bali, Indonesia</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon flight">✈️</div>
+        <span class="card-title">Vuelo · Con escala en Kuala Lumpur</span>
+      </div>
+      <div class="flight-route">
+        <div class="flight-city"><div class="code">KIX</div><div class="city-name">Osaka</div></div>
+        <div class="flight-arrow">
+          <div class="flight-line"></div>
+          <div class="flight-times">
+            <div class="flight-time-label">11:05</div>
+            <div class="flight-time-label">23:40</div>
+          </div>
+        </div>
+        <div class="flight-city"><div class="code">DPS</div><div class="city-name">Bali</div></div>
+      </div>
+      <div class="tl-item" style="padding: 10px 20px; border-top: 1px solid var(--border);">
+        <div class="tl-time" style="font-size:12px; color: var(--muted)">Ruta</div>
+        <div class="tl-desc" style="font-size: 13px; color: var(--muted)">KIX 11:05 → KUL 16:55 · Escala 3h45 · KUL 20:40 → DPS 23:40</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon activity">📋</div>
+        <span class="card-title">Programa del día</span>
+      </div>
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-time">07:00</div><div class="tl-desc">Transporte al aeropuerto</div></div>
+        <div class="tl-item"><div class="tl-time">08:00</div><div class="tl-desc">Check-in aeropuerto KIX</div></div>
+        <div class="tl-item"><div class="tl-time">23:40</div><div class="tl-desc">Llegada a Bali</div></div>
+        <div class="tl-item"><div class="tl-time muted">→</div><div class="tl-desc">Transporte al hotel</div></div>
+        <div class="tl-item"><div class="tl-time">01:30</div><div class="tl-desc">Check-in hotel</div></div>
+        <div class="tl-item"><div class="tl-time muted">Noche</div><div class="tl-desc">Cenar en hotel</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon hotel">🏨</div>
+        <span class="card-title">Hospedaje · 5 noches</span>
+      </div>
+      <div class="hotel-block">
+        <div class="hotel-name">Amora Ubud Boutique Villas</div>
+        <div class="hotel-meta">
+          <span>🌙 5 noches (24–29 jul)</span>
+          <span>🛏 Romance Valley Pool Villa</span>
+          <span>🏊 Villa con alberca privada</span>
+          <span><span class="badge green">Desayuno incluido</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DÍA 13 -->
+  <div class="day-panel" id="day-13">
+    <div class="day-header">
+      <div class="day-badge"><div class="day-num">13</div><div class="day-label">Día</div></div>
+      <div class="day-title-block">
+        <div class="day-date-small">Sábado · 25 de julio</div>
+        <div class="day-title">Tour Ubud</div>
+        <span class="location-pill indonesia">🇮🇩 Bali, Indonesia</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon activity">📋</div>
+        <span class="card-title">Programa del día</span>
+      </div>
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-time muted">Mañana</div><div class="tl-desc">Mañana tranquila · Desayuno en hotel</div></div>
+        <div class="tl-item"><div class="tl-time">13:00</div><div class="tl-desc">Tour Ubud 🌿<div class="tl-sub">Duración: 5 horas</div></div></div>
+        <div class="tl-item"><div class="tl-time muted">→</div><div class="tl-desc">Rice Terraces de Tegallalang</div></div>
+        <div class="tl-item"><div class="tl-time muted">→</div><div class="tl-desc">Tirta Empul Temple</div></div>
+        <div class="tl-item"><div class="tl-time muted">→</div><div class="tl-desc">Monkey Forest 🐒</div></div>
+        <div class="tl-item"><div class="tl-time">18:00</div><div class="tl-desc">Fin del tour</div></div>
+        <div class="tl-item"><div class="tl-time muted">Noche</div><div class="tl-desc">Disfrutar el hotel · Alberca / SPA 💆</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DÍA 14 -->
+  <div class="day-panel" id="day-14">
+    <div class="day-header">
+      <div class="day-badge"><div class="day-num">14</div><div class="day-label">Día</div></div>
+      <div class="day-title-block">
+        <div class="day-date-small">Domingo · 26 de julio</div>
+        <div class="day-title">Tour Nusa Penida</div>
+        <span class="location-pill indonesia">🇮🇩 Bali, Indonesia</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon activity">📋</div>
+        <span class="card-title">Programa del día</span>
+      </div>
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-time">06:30</div><div class="tl-desc">Recogida en hotel</div></div>
+        <div class="tl-item"><div class="tl-time">08:00</div><div class="tl-desc">Tour: Premium Shared Tour to Nusa Penida 🏝️<div class="tl-sub">Duración: 10 horas</div></div></div>
+        <div class="tl-item"><div class="tl-time">18:00</div><div class="tl-desc">Fin del tour</div></div>
+        <div class="tl-item"><div class="tl-time">19:00</div><div class="tl-desc">Regreso al hotel (aprox. 1h)</div></div>
+        <div class="tl-item"><div class="tl-time muted">Noche</div><div class="tl-desc">Disfrutar el hotel · Alberca / SPA 💆</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DÍA 15 -->
+  <div class="day-panel" id="day-15">
+    <div class="day-header">
+      <div class="day-badge"><div class="day-num">15</div><div class="day-label">Día</div></div>
+      <div class="day-title-block">
+        <div class="day-date-small">Lunes · 27 de julio</div>
+        <div class="day-title">East Bali Private Tour</div>
+        <span class="location-pill indonesia">🇮🇩 Bali, Indonesia</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon activity">📋</div>
+        <span class="card-title">Programa del día</span>
+      </div>
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-time muted">Mañana</div><div class="tl-desc">Desayuno en hotel</div></div>
+        <div class="tl-item"><div class="tl-time">06:00</div><div class="tl-desc">East Bali Private Tour 🌅<div class="tl-sub">Duración: 10 horas</div></div></div>
+        <div class="tl-item"><div class="tl-time muted">→</div><div class="tl-desc">Gate of Heaven · Lempuyang Temple</div></div>
+        <div class="tl-item"><div class="tl-time muted">→</div><div class="tl-desc">Tirta Gangga</div></div>
+        <div class="tl-item"><div class="tl-time muted">→</div><div class="tl-desc">Waterfalls</div></div>
+        <div class="tl-item"><div class="tl-time">16:00</div><div class="tl-desc">Fin del tour</div></div>
+        <div class="tl-item"><div class="tl-time muted">Tarde</div><div class="tl-desc">Disfrutar el hotel · Alberca / SPA 💆</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DÍA 16 -->
+  <div class="day-panel" id="day-16">
+    <div class="day-header">
+      <div class="day-badge"><div class="day-num">16</div><div class="day-label">Día</div></div>
+      <div class="day-title-block">
+        <div class="day-date-small">Martes · 28 de julio</div>
+        <div class="day-title">Día Libre en Bali</div>
+        <span class="location-pill indonesia">🇮🇩 Bali, Indonesia</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon activity">📋</div>
+        <span class="card-title">Programa del día</span>
+      </div>
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-time muted">Todo el día</div><div class="tl-desc">Día libre 🌴<div class="tl-sub">Disfrutar del hotel · Villa con alberca privada</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DÍA 17 -->
+  <div class="day-panel" id="day-17">
+    <div class="day-header">
+      <div class="day-badge"><div class="day-num">17</div><div class="day-label">Día</div></div>
+      <div class="day-title-block">
+        <div class="day-date-small">Miércoles · 29 de julio</div>
+        <div class="day-title">Bali → Islas Komodo</div>
+        <span class="location-pill indonesia">🇮🇩 Islas Komodo, Indonesia</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon flight">✈️</div>
+        <span class="card-title">Vuelo</span>
+      </div>
+      <div class="flight-route">
+        <div class="flight-city"><div class="code">DPS</div><div class="city-name">Bali</div></div>
+        <div class="flight-arrow">
+          <div class="flight-line"></div>
+          <div class="flight-times">
+            <div class="flight-time-label">15:45</div>
+            <div class="flight-time-label">17:00</div>
+          </div>
+        </div>
+        <div class="flight-city"><div class="code">LBJ</div><div class="city-name">Labuan Bajo</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon activity">📋</div>
+        <span class="card-title">Programa del día</span>
+      </div>
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-time muted">Mañana</div><div class="tl-desc">Mañana tranquila en Bali</div></div>
+        <div class="tl-item"><div class="tl-time muted">→</div><div class="tl-desc">Transporte al aeropuerto · Check-in</div></div>
+        <div class="tl-item"><div class="tl-time">15:45</div><div class="tl-desc">Vuelo Bali → Labuan Bajo</div></div>
+        <div class="tl-item"><div class="tl-time">17:00</div><div class="tl-desc">Llegada a Labuan Bajo</div></div>
+        <div class="tl-item"><div class="tl-time">18:30</div><div class="tl-desc">Check-in hotel</div></div>
+        <div class="tl-item"><div class="tl-time muted">Noche</div><div class="tl-desc">Disfrutar el hotel · Cenar ahí 🌊</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon hotel">🏨</div>
+        <span class="card-title">Hospedaje · 3 noches</span>
+      </div>
+      <div class="hotel-block">
+        <div class="hotel-name">Menjaga Bay</div>
+        <div class="hotel-meta">
+          <span>🌙 3 noches (29 jul – 1 ago)</span>
+          <span>🛏 Deluxe King Sea Suite — sobre el agua 🌊</span>
+          <span><span class="badge green">Desayuno incluido</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DÍA 18 -->
+  <div class="day-panel" id="day-18">
+    <div class="day-header">
+      <div class="day-badge"><div class="day-num">18</div><div class="day-label">Día</div></div>
+      <div class="day-title-block">
+        <div class="day-date-small">Jueves · 30 de julio</div>
+        <div class="day-title">Playa & Actividades Acuáticas</div>
+        <span class="location-pill indonesia">🇮🇩 Islas Komodo, Indonesia</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon activity">📋</div>
+        <span class="card-title">Programa del día</span>
+      </div>
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-time muted">Todo el día</div><div class="tl-desc">Disfrutar del hotel y la playa 🌊<div class="tl-sub">Kayak · Snorkel · Actividades acuáticas</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DÍA 19 -->
+  <div class="day-panel" id="day-19">
+    <div class="day-header">
+      <div class="day-badge"><div class="day-num">19</div><div class="day-label">Día</div></div>
+      <div class="day-title-block">
+        <div class="day-date-small">Viernes · 31 de julio</div>
+        <div class="day-title">Full Day Komodo Tour</div>
+        <span class="location-pill indonesia">🇮🇩 Islas Komodo, Indonesia</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon activity">📋</div>
+        <span class="card-title">Programa del día</span>
+      </div>
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-time">07:00</div><div class="tl-desc">Full Day Komodo Tour 🦎<div class="tl-sub">Duración: 9 horas</div></div></div>
+        <div class="tl-item"><div class="tl-time muted">→</div><div class="tl-desc">Hiking en Padar Island</div></div>
+        <div class="tl-item"><div class="tl-time muted">→</div><div class="tl-desc">Relax en Pink Beach 🏖️</div></div>
+        <div class="tl-item"><div class="tl-time muted">→</div><div class="tl-desc">Komodo National Park — ver dragones</div></div>
+        <div class="tl-item"><div class="tl-time muted">→</div><div class="tl-desc">Snorkelling en Taka Makassar</div></div>
+        <div class="tl-item"><div class="tl-time muted">→</div><div class="tl-desc">Snorkelling en Manta Point 🐠</div></div>
+        <div class="tl-item"><div class="tl-time muted">→</div><div class="tl-desc">Snorkelling en Siaba Island / Turtle Bay 🐢</div></div>
+        <div class="tl-item"><div class="tl-time">16:00</div><div class="tl-desc">Fin del tour</div></div>
+        <div class="tl-item"><div class="tl-time muted">Noche</div><div class="tl-desc">Disfrutar hotel · Cenar ahí</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DÍA 20 -->
+  <div class="day-panel" id="day-20">
+    <div class="day-header">
+      <div class="day-badge"><div class="day-num">20</div><div class="day-label">Día</div></div>
+      <div class="day-title-block">
+        <div class="day-date-small">Sábado · 1 de agosto</div>
+        <div class="day-title">Uluwatu & Vuelo de Regreso</div>
+        <span class="location-pill indonesia">✈️ En tránsito</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon flight">✈️</div>
+        <span class="card-title">Vuelo · Komodo → Bali → Monterrey</span>
+      </div>
+      <div class="flight-route">
+        <div class="flight-city"><div class="code">LBJ</div><div class="city-name">Labuan Bajo</div></div>
+        <div class="flight-arrow">
+          <div class="flight-line"></div>
+          <div class="flight-times">
+            <div class="flight-time-label">08:35</div>
+            <div class="flight-time-label">09:50</div>
+          </div>
+        </div>
+        <div class="flight-city"><div class="code">DPS</div><div class="city-name">Bali</div></div>
+      </div>
+      <div class="flight-route" style="border-top: 1px solid var(--border);">
+        <div class="flight-city"><div class="code">DPS</div><div class="city-name">Bali</div></div>
+        <div class="flight-arrow">
+          <div class="flight-line"></div>
+          <div class="flight-times">
+            <div class="flight-time-label">19:20</div>
+            <div class="flight-time-label">13:04 (+2)</div>
+          </div>
+        </div>
+        <div class="flight-city"><div class="code">MTY</div><div class="city-name">Monterrey</div></div>
+      </div>
+      <div class="tl-item" style="padding: 10px 20px; border-top: 1px solid var(--border);">
+        <div class="tl-time" style="font-size:12px; color: var(--muted)">Ruta</div>
+        <div class="tl-desc" style="font-size: 13px; color: var(--muted)">DPS 19:20 → DOH 23:40 · Escala 1h40 · DOH 01:20 → DFW 09:50 · Escala 2h29 · DFW 12:19 → MTY 13:04</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon activity">📋</div>
+        <span class="card-title">Programa del día</span>
+      </div>
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-time">05:30</div><div class="tl-desc">Transporte al aeropuerto</div></div>
+        <div class="tl-item"><div class="tl-time">06:30</div><div class="tl-desc">Check-in aeropuerto LBJ</div></div>
+        <div class="tl-item"><div class="tl-time">08:35</div><div class="tl-desc">Vuelo Labuan Bajo → Bali</div></div>
+        <div class="tl-item"><div class="tl-time">09:50</div><div class="tl-desc">Llegada a Bali</div></div>
+        <div class="tl-item"><div class="tl-time muted">Tarde</div><div class="tl-desc">Tour por Uluwatu Temple 🌅<div class="tl-sub">Explorar la zona de Uluwatu</div></div></div>
+        <div class="tl-item"><div class="tl-time">17:00</div><div class="tl-desc">Check-in aeropuerto DPS</div></div>
+        <div class="tl-item"><div class="tl-time">19:20</div><div class="tl-desc">Vuelo Bali → Monterrey (vía DOH y DFW)</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DÍA 21 -->
+  <div class="day-panel" id="day-21">
+    <div class="day-header">
+      <div class="day-badge"><div class="day-num">21</div><div class="day-label">Día</div></div>
+      <div class="day-title-block">
+        <div class="day-date-small">Domingo · 2 de agosto</div>
+        <div class="day-title">¡Llegada a Monterrey!</div>
+        <span class="location-pill usa">🏠 Monterrey, México</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon activity">📋</div>
+        <span class="card-title">Programa del día</span>
+      </div>
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-time">13:04</div><div class="tl-desc">🎉 Llegada a Monterrey<div class="tl-sub">Bienvenidos de regreso</div></div></div>
+        <div class="tl-item"><div class="tl-time muted">→</div><div class="tl-desc">Transporte a casa</div></div>
+        <div class="tl-item"><div class="tl-time muted">Tarde</div><div class="tl-desc">¡A descansar! 😴</div></div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+  function showDay(num, btn) {
+    document.querySelectorAll('.day-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('day-' + num).classList.add('active');
+    btn.classList.add('active');
+    btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+
+</body>
+</html>
